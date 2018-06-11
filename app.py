@@ -1,4 +1,7 @@
 """Librerías """
+#referencia de la estructura de Messenger en facebook
+#https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messages
+
 import random #libreria para selecion random
 from flask import Flask, request #libreria para el levantamiento del sitio en nuestro localhost
 from pymessenger.bot import Bot #libreria para el bot
@@ -31,8 +34,13 @@ def receive_message():
                 # obtenemos el ID de Facebook Messenger para poder retornar nuestra respuesta a ese mismo usuario
                 recipient_id = message['sender']['id']
                 if message['message'].get('text'):
-                    response_sent_text = get_message()
-                    send_message(recipient_id, response_sent_text)
+                    """Auto respuesta, el bot responderá lo mismo que escribio el usuario"""
+                    self_response = message['message']['text'];#obtenemos el valor del arreglo y lo colocamos en una variable.
+                    send_message(recipient_id, self_response)
+                    """Respuesta programada, el bot respondera en forma random conforme al arreglo definido"""
+                    #response_sent_text = get_message()
+                    #send_message(recipient_id, response_sent_text)
+
                 # En dado caso de que el suario envie alguna foto, video o GIF podremos tambien retornar nuestra respuesta
                 if message['message'].get('attachments'):
                     response_sent_nontext = get_message()
